@@ -1,6 +1,6 @@
 <template>
-    <div class="Leaderboard-summary">
-        <h2>Leaderboard Summary</h2>
+    <div class="leaderboard-table">
+        <h2>Leaderboard Table</h2>
         <table>
             <thead>
                 <tr>
@@ -14,10 +14,10 @@
                     <td>{{ item.score }}</td>
                 </tr>
             </tbody>
-        </table>  
-        <p v-if="errorMessage" class="error">{{ errorMessage }} </p>  
+        </table>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
-</template>   
+</template>
 
 <script setup lang="ts">
     import { onMounted, ref } from 'vue';
@@ -25,35 +25,33 @@
     type LeaderboardItem = {
         player: string;
         score: number;
-    }
+    };
 
     const LeaderboardData = ref<LeaderboardItem[]>([]);
     const errorMessage = ref("");
 
-    // Fetch leaderboard data 
-    async function fetchleaderboardData() {
-        try{
+    async function fetchLeaderboardData() {
+        try {
             const res = await fetch('http://localhost:3000/api/leaderboard-summary');
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
             const data = (await res.json()) as LeaderboardItem[];
             LeaderboardData.value = data;
-        } 
-        catch (err: any) {
+        } catch (err: any) {
             errorMessage.value = err?.message ?? 'Unknown error occurred';
         }
     }
 
     onMounted(() => {
-        fetchleaderboardData();
+        fetchLeaderboardData();
     });
-
 </script>
 
 <style scoped>
-    .Leaderboard-summary{
-        margin-top: 10px;
+    .leaderboard-table {
+        text-align: center;
+        margin-top: 20px;
     }
 
     table {
@@ -63,10 +61,14 @@
 
     th, td {
         border: 1px solid #ccc;
+        padding: 8px 16px;
+    }
+
+    th {
+        background-color: #f0f0f0;
     }
 
     .error {
-        color: rebeccapurple;
+        color: red;
     }
-    
 </style>
