@@ -32,7 +32,7 @@
 
     async function fetchLeaderboardData() {
         try {
-            const res = await fetch('http://localhost:3000/api/leaderboard-summary');
+            const res = await fetch('http://localhost:3000/api/leaderboard');
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
